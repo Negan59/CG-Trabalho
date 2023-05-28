@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CG-Trabalho
+namespace CG_Imagens.entidades
 {
     class Objeto3D
     {
@@ -224,7 +222,7 @@ namespace CG-Trabalho
                 p = verticesOri[i];
                 matp = multiplicar(ma, ponto3D2Matriz(p));
                 // atualizando verticesAtuais
-                verticesAtuais.Add(new Ponto3D(matp[0, 0],matp[1, 0], matp[2, 0]));
+                verticesAtuais.Add(new Ponto3D(matp[0, 0], matp[1, 0], matp[2, 0]));
                 x += matp[0, 0]; y += matp[1, 0]; z += matp[2, 0];
                 if (matp[0, 0] > mx) mx = matp[0, 0];
                 else if (matp[0, 0] < lx) lx = matp[0, 0];
@@ -430,7 +428,7 @@ namespace CG-Trabalho
             double[,] rot = newMatrizIdentidade(4);
             rot[0, 0] = Math.Cos(r); rot[0, 1] = -Math.Sin(r);
             rot[1, 0] = Math.Sin(r); rot[1, 1] = Math.Cos(r);
-            if(!(tx == 0 && ty == 0 && tz ==0))
+            if (!(tx == 0 && ty == 0 && tz == 0))
             {
                 translacao(-tx, -ty, -tz);
                 ma = multiplicar(rot, ma);

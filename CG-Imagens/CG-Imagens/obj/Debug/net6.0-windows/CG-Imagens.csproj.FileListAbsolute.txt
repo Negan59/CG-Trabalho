@@ -1,0 +1,17 @@
+C:\Users\guilu\Videos\CG-Trabalho\CG-Imagens\CG-Imagens\obj\Debug\net6.0-windows\CG-Imagens.csproj.AssemblyReference.cache
+C:\Users\guilu\Videos\CG-Trabalho\CG-Imagens\CG-Imagens\obj\Debug\net6.0-windows\CG-Imagens.csproj.GenerateResource.cache
+C:\Users\guilu\Videos\CG-Trabalho\CG-Imagens\CG-Imagens\obj\Debug\net6.0-windows\CG-Imagens.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\guilu\Videos\CG-Trabalho\CG-Imagens\CG-Imagens\obj\Debug\net6.0-windows\CG-Imagens.AssemblyInfoInputs.cache
+C:\Users\guilu\Videos\CG-Trabalho\CG-Imagens\CG-Imagens\obj\Debug\net6.0-windows\CG-Imagens.AssemblyInfo.cs
+C:\Users\guilu\Videos\CG-Trabalho\CG-Imagens\CG-Imagens\obj\Debug\net6.0-windows\CG-Imagens.csproj.CoreCompileInputs.cache
+C:\Users\guilu\Videos\CG-Trabalho\CG-Imagens\CG-Imagens\obj\Debug\net6.0-windows\_3DViewer.FormPrincipal.resources
+C:\Users\guilu\Videos\CG-Trabalho\CG-Imagens\CG-Imagens\bin\Debug\net6.0-windows\CG-Imagens.exe
+C:\Users\guilu\Videos\CG-Trabalho\CG-Imagens\CG-Imagens\bin\Debug\net6.0-windows\CG-Imagens.deps.json
+C:\Users\guilu\Videos\CG-Trabalho\CG-Imagens\CG-Imagens\bin\Debug\net6.0-windows\CG-Imagens.runtimeconfig.json
+C:\Users\guilu\Videos\CG-Trabalho\CG-Imagens\CG-Imagens\bin\Debug\net6.0-windows\CG-Imagens.dll
+C:\Users\guilu\Videos\CG-Trabalho\CG-Imagens\CG-Imagens\bin\Debug\net6.0-windows\CG-Imagens.pdb
+C:\Users\guilu\Videos\CG-Trabalho\CG-Imagens\CG-Imagens\obj\Debug\net6.0-windows\CG-Imagens.dll
+C:\Users\guilu\Videos\CG-Trabalho\CG-Imagens\CG-Imagens\obj\Debug\net6.0-windows\refint\CG-Imagens.dll
+C:\Users\guilu\Videos\CG-Trabalho\CG-Imagens\CG-Imagens\obj\Debug\net6.0-windows\CG-Imagens.pdb
+C:\Users\guilu\Videos\CG-Trabalho\CG-Imagens\CG-Imagens\obj\Debug\net6.0-windows\CG-Imagens.genruntimeconfig.cache
+C:\Users\guilu\Videos\CG-Trabalho\CG-Imagens\CG-Imagens\obj\Debug\net6.0-windows\ref\CG-Imagens.dll

@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
-namespace CG-Trabalho.entidades
+namespace CG_Imagens.entidades
 {
     class Desenhar
-    {   // backfaceculling
+    {
         private const double pi = Math.PI;
         private int CX, CY;
 
@@ -96,7 +94,7 @@ namespace CG-Trabalho.entidades
                 {
                     ++cont;
                     aet.add(et.getAET(y).getList()); // adicionando novos nodos
-                                                                     }
+                }
                 aetAux = new AET();
                 foreach (NoAET no in aet.getList()) // removendo nodos com Ymax == Y
                 {
@@ -113,7 +111,7 @@ namespace CG-Trabalho.entidades
                     x2 = (int)Math.Round(lista[i + 1].getXmin());
                     z = lista[i].getZmin();
                     inczx = (lista[i + 1].getZmin() - lista[i].getZmin()) / ((x2) - (x));
-                    for(int c = x, c2 = (int)lista[i + 1].getXmin(); c <= c2; ++c)
+                    for (int c = x, c2 = (int)lista[i + 1].getXmin(); c <= c2; ++c)
                     {
                         if (inImage(data, x, y) && z > zbuffer[x, y])
                         {
@@ -149,7 +147,7 @@ namespace CG-Trabalho.entidades
             {
                 obj.atualizarVetoresNormaisFaces();
                 obj.atualizarVetoresNormaisVertices();
-                for(int i = 0; i < obj.getFaces().Count; ++i)
+                for (int i = 0; i < obj.getFaces().Count; ++i)
                 {
                     if (obj.getVetNFace(i).getZ() >= 0)
                     {
@@ -199,7 +197,7 @@ namespace CG-Trabalho.entidades
                     incbx = (lista[i + 1].getBZmin() - lista[i].getBZmin()) / dx;
 
                     inczx = (lista[i + 1].getZmin() - lista[i].getZmin()) / dx;
-                    while(x <= x2)
+                    while (x <= x2)
                     {
                         if (inImage(data, x, y) && z > zbuffer[x, y])
                         {
@@ -231,7 +229,7 @@ namespace CG-Trabalho.entidades
             int height = bmp.Height, width = bmp.Width;
             double[,] zbuffer = gerarZBuffer(width, height);
             ET et;
-            
+
             BitmapData data = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height),
                 ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
             unsafe
@@ -290,7 +288,7 @@ namespace CG-Trabalho.entidades
                     incbx = (lista[i + 1].getBZmin() - lista[i].getBZmin()) / dx;
 
                     inczx = (lista[i + 1].getZmin() - lista[i].getZmin()) / dx;
-                    while(x <= x2)
+                    while (x <= x2)
                     {
                         if (inImage(data, x, y) && z > zbuffer[x, y])
                         {
@@ -1009,6 +1007,5 @@ namespace CG-Trabalho.entidades
             // unlock
             bmp.UnlockBits(bmpdata);
         } // fim writeLineBresenham
-
     }
 }

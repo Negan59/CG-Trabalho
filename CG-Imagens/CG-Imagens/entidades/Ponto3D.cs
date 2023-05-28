@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CG-Trabalho.entidades
+namespace CG_Imagens.entidades
 {
     class Ponto3D
     {
