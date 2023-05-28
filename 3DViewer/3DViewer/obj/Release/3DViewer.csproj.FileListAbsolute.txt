@@ -1,0 +1,9 @@
+D:\BCC\6o_Termo\Computacao_Grafica\2o_Bim\3DViewer\3DViewer\bin\Release\3DViewer.exe.config
+D:\BCC\6o_Termo\Computacao_Grafica\2o_Bim\3DViewer\3DViewer\obj\Release\_3DViewer.FormPrincipal.resources
+D:\BCC\6o_Termo\Computacao_Grafica\2o_Bim\3DViewer\3DViewer\obj\Release\_3DViewer.Properties.Resources.resources
+D:\BCC\6o_Termo\Computacao_Grafica\2o_Bim\3DViewer\3DViewer\obj\Release\3DViewer.csproj.GenerateResource.Cache
+D:\BCC\6o_Termo\Computacao_Grafica\2o_Bim\3DViewer\3DViewer\bin\Release\3DViewer.exe
+D:\BCC\6o_Termo\Computacao_Grafica\2o_Bim\3DViewer\3DViewer\bin\Release\3DViewer.pdb
+D:\BCC\6o_Termo\Computacao_Grafica\2o_Bim\3DViewer\3DViewer\obj\Release\3DViewer.exe
+D:\BCC\6o_Termo\Computacao_Grafica\2o_Bim\3DViewer\3DViewer\obj\Release\3DViewer.pdb
+D:\BCC\6o_Termo\Computacao_Grafica\2o_Bim\3DViewer\3DViewer\obj\Release\3DViewer.csprojResolveAssemblyReference.cache
