@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\guilu\\Music\\Computação gráfica\\CGTrabalho\\CGTrabalho\\CGTrabalho.vbproj",
+      "projectUniqueName": "C:\\Users\\guilu\\Videos\\CG-Trabalho\\CGTrabalho\\CGTrabalho.vbproj",
       "projectName": "CGTrabalho",
-      "projectPath": "C:\\Users\\guilu\\Music\\Computação gráfica\\CGTrabalho\\CGTrabalho\\CGTrabalho.vbproj",
+      "projectPath": "C:\\Users\\guilu\\Videos\\CG-Trabalho\\CGTrabalho\\CGTrabalho.vbproj",
       "packagesPath": "C:\\Users\\guilu\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\guilu\\Music\\Computação gráfica\\CGTrabalho\\CGTrabalho\\obj\\",
+      "outputPath": "C:\\Users\\guilu\\Videos\\CG-Trabalho\\CGTrabalho\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\guilu\\AppData\\Roaming\\NuGet\\NuGet.Config",
