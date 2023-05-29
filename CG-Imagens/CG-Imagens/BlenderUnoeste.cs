@@ -31,7 +31,7 @@ namespace _3DViewer
             {
                 delta = 1.1;
             }
-            else 
+            else
             {
                 delta = 0.9;
             }
@@ -49,7 +49,7 @@ namespace _3DViewer
             x2 = e.X;
             y2 = e.Y;
             if (e.Button == MouseButtons.Left)
-            { 
+            {
                 if (ctrlPress)
                 {
                     double g = (Math.Abs(y2 - y1) > Math.Abs(x2 - x1)) ? -(y2 - y1) : x2 - x1;
@@ -63,7 +63,7 @@ namespace _3DViewer
                 atualizarObjeto();
             }
             else if (e.Button == MouseButtons.Right)
-            { 
+            {
                 tx += x2 - x1;
                 ty += y2 - y1;
                 atualizarObjeto();
@@ -137,7 +137,7 @@ namespace _3DViewer
         }
 
 
-            
+
 
 
 
@@ -167,7 +167,7 @@ namespace _3DViewer
             pbPrincipal.MouseWheel += new MouseEventHandler(pictureBox_mouseWheel);
 
         }
-    
+
 
 
         private void atualizarObjeto()
@@ -208,6 +208,38 @@ namespace _3DViewer
             }
         }
 
+        private void cbProjecao_SelectedIndexChanged(object sender, EventArgs e)
+        {
 
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+        }
+
+        private void pbPrincipal_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
+        {
+
+        }
+
+        private void tabPage1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void labelPerspectiva_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
