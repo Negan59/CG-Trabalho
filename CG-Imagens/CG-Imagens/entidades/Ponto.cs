@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace CG_Imagens.entidades
 {
-    class Ponto3D
+    class Ponto
     {
         private double x, y, z;
 
-        public Ponto3D()
+        public Ponto()
         {
             x = y = z = 0;
         }
-        public Ponto3D(double x, double y, double z)
+        public Ponto(double x, double y, double z)
         {
             this.x = x;
             this.y = y;
@@ -48,13 +48,13 @@ namespace CG_Imagens.entidades
             this.z = z;
         }
 
-        public Ponto3D mais(Ponto3D p)
+        public Ponto mais(Ponto ponto)
         {
-            return new Ponto3D(x + p.getX(), y + p.getY(), z + p.getZ());
+            return new Ponto(x + ponto.getX(), y + ponto.getY(), z + ponto.getZ());
         }
-        public Ponto3D menos(Ponto3D p)
+        public Ponto menos(Ponto ponto)
         {
-            return new Ponto3D(x - p.getX(), y - p.getY(), z - p.getZ());
+            return new Ponto(x - ponto.getX(), y - ponto.getY(), z - ponto.getZ());
         }
 
         public double getNorma()
@@ -62,36 +62,31 @@ namespace CG_Imagens.entidades
             return Math.Sqrt(x * x + y * y + z * z);
         }
 
-        public Ponto3D normalizar()
+        public Ponto normalizar()
         {
             double norma = getNorma();
             if (norma != 0)
-                return new Ponto3D(x / norma, y / norma, z / norma);
-            return new Ponto3D(1, 1, 1);
+                return new Ponto(x / norma, y / norma, z / norma);
+            return new Ponto(1, 1, 1);
         }
 
-        public double produtoEscalar(Ponto3D p)
+        public double produtoEscalar(Ponto ponto)
         {
-            return x * p.getX() + y * p.getY() + z * p.getZ();
+            return x * ponto.getX() + y * ponto.getY() + z * ponto.getZ();
         }
 
-        public Ponto3D produtoVetorial(Ponto3D v)
+        public Ponto produtoVetorial(Ponto ponto)
         {
-            /*
-             i  j   k  | i   j  
-             ux uy  uz | ux  uy
-             vx vy  vz | vx  vy
-             */
-            Ponto3D r = new Ponto3D();
-            r.setX(y * v.getZ() - (z * v.getY()));
-            r.setY(z * v.getX() - (x * v.getZ()));
-            r.setZ(x * v.getY() - (y * v.getX()));
-            return r;
+            Ponto resultado = new Ponto();
+            resultado.setX(y * ponto.getZ() - (z * ponto.getY()));
+            resultado.setY(z * ponto.getX() - (x * ponto.getZ()));
+            resultado.setZ(x * ponto.getY() - (y * ponto.getX()));
+            return resultado;
         }
 
-        public Ponto3D divide(double d)
+        public Ponto divide(double d)
         {
-            return new Ponto3D(x / d, y / d, z / d);
+            return new Ponto(x / d, y / d, z / d);
         }
     }
 }

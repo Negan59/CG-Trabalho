@@ -59,8 +59,8 @@
     <Compile Include="entidades\Desenhar.cs" />
     <Compile Include="entidades\ET.cs" />
     <Compile Include="entidades\NoAET.cs" />
-    <Compile Include="entidades\Objeto3D.cs" />
-    <Compile Include="entidades\Ponto3D.cs" />
+    <Compile Include="entidades\Forma.cs" />
+    <Compile Include="entidades\Ponto.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="3DViewer.resx">
