@@ -634,6 +634,35 @@ namespace CG_Imagens.entidades
             bmp.UnlockBits(data);
         }
 
+        public void desenhar(Bitmap bmp, Objeto3D obj, int tx, int ty, bool oculta)
+        {
+            BitmapData data = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height),
+                ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
+            unsafe
+            {
+                CX = tx;
+                CY = ty;
+                List<int> f;
+                List<List<int>> faces = obj.getFaces();
+                List<Ponto3D> vertices = obj.getVertices();
+                if (oculta)
+                {
+                    for (int idf = 0; idf < faces.Count; ++idf)
+                        if (obj.getVetNFace(idf).getZ() >= 0.0)
+                            writeFaceParalelaXY(data, faces[idf], vertices, Color.White);
+
+                }
+                else
+                {
+                    for (int idf = 0; idf < faces.Count; ++idf)
+                        writeFaceParalelaXY(data, faces[idf], vertices, Color.White);
+                }
+
+
+            }
+            bmp.UnlockBits(data);
+        }
+
         private unsafe void writeFaceParalelaXY(BitmapData data, List<int> f, List<Ponto3D> vertices, Color cor)
         {
 
