@@ -16,6 +16,13 @@ namespace _3DViewer
     public partial class FormPrincipal : Form
     {
         private static bool ctrlPress;
+        private static bool zPress;
+        private static bool xPress;
+        private static bool yPress;
+
+        private Color material = Color.White;
+        private Color fundo = Color.Black;
+
         private Bitmap bmpPrincipal;
         private Desenhar draw;
         private Random random;
@@ -35,7 +42,22 @@ namespace _3DViewer
             {
                 delta = 0.9;
             }
-            obj.escala(delta, delta, delta);
+            if (xPress)
+            {
+                obj.escala(delta, 1, 1);
+            }
+            else if (yPress)
+            {
+                obj.escala(1, delta, 1);
+            }
+            else if (zPress)
+            {
+                obj.escala(1, 1, delta);
+            }
+            else
+            {
+                obj.escala(delta, delta, delta);
+            }
             atualizarObjeto();
         }
 
@@ -104,11 +126,33 @@ namespace _3DViewer
         private void pressionaBotao(object sender, KeyEventArgs e)
         {
             ctrlPress = e.KeyCode == Keys.ControlKey;
+            xPress = e.KeyCode == Keys.X;
+            yPress = e.KeyCode == Keys.Y;
+            zPress = e.KeyCode == Keys.Z;
         }
 
         private void soltaBotao(object sender, KeyEventArgs e)
         {
             ctrlPress = false;
+            zPress=false;
+            xPress = false;
+            yPress = false;
+        }
+
+        private void abrirSeletorMaterial(object sender, EventArgs e)
+        {
+            materialColor.ShowDialog();
+            material = materialColor.Color;
+            btMaterial.BackColor = material;
+            atualizarObjeto();
+        }
+
+        private void trocarFundo(object sender, EventArgs e)
+        {
+            fundoColor.ShowDialog();
+            fundo = fundoColor.Color;
+            btFundo.BackColor = fundo;
+            atualizarObjeto();
         }
 
         private void mouseDesce(object sender, MouseEventArgs e)
@@ -116,6 +160,8 @@ namespace _3DViewer
             x1 = e.X;
             y1 = e.Y;
         }
+
+
 
         private void carregarDados()
         {
@@ -162,6 +208,10 @@ namespace _3DViewer
         {
             InitializeComponent();
             carregarDados();
+            materialColor.Color = Color.White;
+            fundoColor.Color = Color.Black;
+            btMaterial.BackColor = materialColor.Color;
+            btFundo.BackColor = fundoColor.Color;
             this.KeyPreview = true;
             random = new Random();
             pbPrincipal.MouseWheel += new MouseEventHandler(pictureBox_mouseWheel);
@@ -177,10 +227,10 @@ namespace _3DViewer
             {
                 double d;
                 double.TryParse(tbD.Text, out d);
-                draw.paint(bmpPrincipal, Color.Black);
+                draw.paint(bmpPrincipal, fundo);
                 if (cbProjecao.Text == "Perspectiva")
                 {
-                    draw.projecaoPerspectivaXY(bmpPrincipal, obj, tx, ty, Color.White, ckFacesOcultas.Checked, (d = double.Parse(tbD.Text)));
+                    draw.projecaoPerspectivaXY(bmpPrincipal, obj, tx, ty, material, ckFacesOcultas.Checked, (d = double.Parse(tbD.Text)));
                     pbPrincipal.Refresh();
 
                 }
@@ -188,12 +238,12 @@ namespace _3DViewer
                 {
                     double L;
                     L = cbProjecao.Text[2] == 'v' ? 1 : 0.5;
-                    draw.projecaoObliqua(bmpPrincipal, obj, tx, ty, Color.White, ckFacesOcultas.Checked, L);
+                    draw.projecaoObliqua(bmpPrincipal, obj, tx, ty, material, ckFacesOcultas.Checked, L);
                     pbPrincipal.Refresh();
                 }
                 else
                 { // Paralela
-                    draw.projecaoParalelaXY(bmpPrincipal, obj, tx, ty, Color.White, ckFacesOcultas.Checked);
+                    draw.projecaoParalelaXY(bmpPrincipal, obj, tx, ty, material, ckFacesOcultas.Checked);
                     pbPrincipal.Refresh();
 
                 }
@@ -208,38 +258,6 @@ namespace _3DViewer
             }
         }
 
-        private void cbProjecao_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void groupBox1_Enter(object sender, EventArgs e)
-        {
-        }
-
-        private void pbPrincipal_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)
-        {
-
-        }
-
-        private void tabPage1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void labelPerspectiva_Click(object sender, EventArgs e)
-        {
-
-        }
+        
     }
 }

@@ -335,20 +335,7 @@ namespace CG_Imagens.entidades
             */
         }
 
-        public void escalaX(double sx)
-        {
-            escala(sx, 1, 1);
-        }
-
-        public void escalaY(double sy)
-        {
-            escala(1, sy, 1);
-        }
-
-        public void escalaZ(double sz)
-        {
-            escala(1, 1, sz);
-        }
+        
 
         public void escala(double sx, double sy, double sz)
         {
