@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -29,6 +30,7 @@ namespace CG_Trabalho
         private Forma obj;
         private int x1, y1, x2, y2, tx, ty;
         private string txd = "0";
+        private Ponto ia, id, ie, ka, kd, ke, Eye, Luz;
 
 
         private void pictureBox_mouseWheel(Object sender, MouseEventArgs e)
@@ -134,7 +136,7 @@ namespace CG_Trabalho
         private void soltaBotao(object sender, KeyEventArgs e)
         {
             ctrlPress = false;
-            zPress=false;
+            zPress = false;
             xPress = false;
             yPress = false;
         }
@@ -175,18 +177,21 @@ namespace CG_Trabalho
                 draw.projetaObjeto(bmpPrincipal, Color.Black);
                 this.Invoke(new MethodInvoker(delegate ()
                 {
+
                     pbPrincipal.Image = bmpPrincipal;
+                    ia = new Ponto(0, 0, 0);
+                    id = new Ponto(0, 0, 0.9);
+                    ie = new Ponto(0.7, 0.7, 0.7);
+                    ka = new Ponto(0.2, 0.2, 0.2);
+                    kd = new Ponto(0, 0, 0.5);
+                    ke = new Ponto(0.8, 0.8, 0.8);
+                    Eye = new Ponto(0, 0, 1);
+                    Luz = new Ponto(-1, -1, 1);
                     tx = bmpPrincipal.Width >> 1;
                     ty = bmpPrincipal.Height >> 1;
                 }));
             }).Start();
         }
-
-
-
-
-
-
 
         private void abrirArquivo(object sender, EventArgs e)
         {
@@ -243,7 +248,23 @@ namespace CG_Trabalho
                 }
                 else
                 { // Paralela
-                    draw.projecaoParalelaXY(bmpPrincipal, obj, tx, ty, material, ckFacesOcultas.Checked);
+                    Cores cor = new Cores();
+                    if (radioButton1.Checked)
+                    {
+                        cor.scanLineFlat(bmpPrincipal, obj, tx, ty, Luz, Eye, (int)numericUpDown1.Value, ia, id, ie, ka, kd, ke);
+                    }else if (Phong.Checked)
+                    {
+                        cor.scanLinePhong(bmpPrincipal, obj, tx, ty, Luz, Eye, (int)numericUpDown1.Value, ia, id, ie, ka, kd, ke);
+                    }
+                    else if(radioButton3.Checked)
+                    {
+                        cor.scanLineGouraud(bmpPrincipal, obj, tx, ty, Luz, Eye, (int)numericUpDown1.Value, ia, id, ie, ka, kd, ke);
+                    }
+                    else
+                    {
+                        draw.projecaoParalelaXY(bmpPrincipal, obj, tx, ty, material, ckFacesOcultas.Checked);
+                    }
+                    
                     pbPrincipal.Refresh();
 
                 }
@@ -258,6 +279,26 @@ namespace CG_Trabalho
             }
         }
 
-        
+        private void flatTeste(object sender, MouseEventArgs e)
+        {
+            if(cbProjecao.Text == "Paralela")
+            {
+                Cores cor = new Cores();
+                cor.scanLineFlat(bmpPrincipal, obj, tx, ty, Luz, Eye, (int)numericUpDown1.Value, ia, id, ie, ka, kd, ke);
+                pbPrincipal.Refresh();
+            }
+            
+        }
+
+        private void phongTeste(object sender, EventArgs e)
+        {
+            if(cbProjecao.Text == "Paralela")
+            {
+                Cores cor = new Cores();
+                cor.scanLinePhong(bmpPrincipal, obj, tx, ty, Luz, Eye, (int)numericUpDown1.Value, ia, id, ie, ka, kd, ke);
+                pbPrincipal.Refresh();
+            }
+            
+        }
     }
 }

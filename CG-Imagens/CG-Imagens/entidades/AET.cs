@@ -35,51 +35,48 @@ namespace CG_Imagens.entidades
         {
             if (lista.Count > 1)
             {
-                QuickSort(0, lista.Count - 1);
-            }
-        }
-
-        private void QuickSort(int inicio, int fim)
-        {
-            if (inicio < fim)
-            {
-                int pivo = Partition(inicio, fim);
-                QuickSort(inicio, pivo - 1);
-                QuickSort(pivo + 1, fim);
-            }
-        }
-
-        private int Partition(int inicio, int fim)
-        {
-            No pivo = lista[fim];
-            int i = inicio - 1;
-
-            for (int j = inicio; j <= fim - 1; j++)
-            {
-                if (Compare(lista[j], pivo) <= 0)
+                Stack<int> pilha = new Stack<int>();
+                int inicio = 0, fim = lista.Count - 1, i, j, meio;
+                No aux;
+                double pivoX;
+                pilha.Push(inicio);
+                pilha.Push(fim);
+                while (pilha.Count > 0)
                 {
-                    i++;
-                    Swap(i, j);
+                    fim = pilha.Pop();
+                    inicio = pilha.Pop();
+                    i = inicio;
+                    j = fim;
+                    meio = (i + j) / 2;
+                    pivoX = lista[meio].getXmin();
+                    while (i < j)
+                    {
+                        while (lista[i].getXmin() < pivoX)
+                            ++i;
+                        while (lista[j].getXmin() > pivoX)
+                            --j;
+                        if (i <= j)
+                        {
+                            aux = lista[i];
+                            lista[i] = lista[j];
+                            lista[j] = aux;
+                            ++i;
+                            --j;
+                        }
+                    }
+                    if (inicio < j)
+                    {
+                        pilha.Push(inicio);
+                        pilha.Push(j);
+                    }
+                    if (i < fim)
+                    {
+                        pilha.Push(i);
+                        pilha.Push(fim);
+                    }
                 }
+
             }
-
-            Swap(i + 1, fim);
-            return i + 1;
-        }
-
-        private int Compare(No a, No b)
-        {
-            int compareYmax = a.getYmax().CompareTo(b.getYmax());
-            if (compareYmax != 0)
-                return compareYmax;
-            return a.getXmin().CompareTo(b.getXmin());
-        }
-
-        private void Swap(int i, int j)
-        {
-            No temp = lista[i];
-            lista[i] = lista[j];
-            lista[j] = temp;
         }
     }
 }

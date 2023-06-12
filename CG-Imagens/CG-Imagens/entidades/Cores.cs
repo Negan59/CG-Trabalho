@@ -59,6 +59,7 @@ namespace CG_Imagens.entidades
                 }
             }
             bmp.UnlockBits(data);
+
         }
 
         private void scanLineFaceFlat(BitmapData data, ET et, double[,] zbuffer)
