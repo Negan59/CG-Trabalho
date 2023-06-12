@@ -48,11 +48,11 @@ namespace CG_Imagens.entidades
             this.z = z;
         }
 
-        public Ponto mais(Ponto ponto)
+        public Ponto soma(Ponto ponto)
         {
             return new Ponto(x + ponto.getX(), y + ponto.getY(), z + ponto.getZ());
         }
-        public Ponto menos(Ponto ponto)
+        public Ponto subtrai(Ponto ponto)
         {
             return new Ponto(x - ponto.getX(), y - ponto.getY(), z - ponto.getZ());
         }

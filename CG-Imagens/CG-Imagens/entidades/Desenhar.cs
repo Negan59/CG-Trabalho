@@ -24,7 +24,7 @@ namespace CG_Imagens.entidades
         {
             return gotoxy(bmp, x, y);
         }
-        private unsafe void writePixel(BitmapData bmp, int x, int y, Color cor)
+        public unsafe void writePixel(BitmapData bmp, int x, int y, Color cor)
         {
             byte* aux = gotoxy(x, y, bmp);
             *aux = cor.B;
@@ -96,7 +96,7 @@ namespace CG_Imagens.entidades
         }
 
 
-        private bool inImage(BitmapData bmp, int x, int y)
+        public bool inImage(BitmapData bmp, int x, int y)
         {
             return x >= 0 && x < bmp.Width && y >= 0 && y < bmp.Height;
         }

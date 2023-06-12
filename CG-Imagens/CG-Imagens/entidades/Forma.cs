@@ -383,13 +383,323 @@ namespace CG_Imagens.entidades
             a = verticesAtuais[face[0]];
             b = verticesAtuais[face[1]];
             n = verticesAtuais[face[face.Count - 1]];
-            Ponto ab = b.menos(a);
-            Ponto an = n.menos(a);
+            Ponto ab = b.subtrai(a);
+            Ponto an = n.subtrai(a);
             Ponto vn = ab.produtoVetorial(an);
             return vn;
         }
 
+        private Ponto mediaVetsNormais(List<Ponto> normais)
+        {
+            double x, y, z, d = normais.Count;
+            x = y = z = 0;
+            foreach (Ponto v in normais)
+            {
+                x += v.getX();
+                y += v.getY();
+                z += v.getZ();
+            }
+            return new Ponto(x / d, y / d, z / d);
+        }
 
-        
+        public void atualizarVetoresNormaisVertices()
+        {
+            // vetNormaisPontos
+            for (int i = 0; i < vetNvertices.Length; ++i)
+            {
+                List<Ponto> normais = new List<Ponto>();
+                foreach (int j in listaFacesVertices[i])
+                    normais.Add(vetNfaces[j]);
+                vetNvertices[i] = mediaVetsNormais(normais);
+            }
+        }
+
+        internal ET gerarETFacePhong(int f, int height, int tx, int ty, Ponto luz, Ponto eye, int n, Ponto ia, Ponto id, Ponto ie, Ponto ka, Ponto kd, Ponto ke)
+        {
+            ET et = new ET(height + 1);
+            double xmax, ymax, zmax, xmin, ymin, zmin, dx, dy, dz, rl, rm, gl, gm, bl, bm;
+            double incx, incz, incrx, incgy, incbz;
+            int y;
+            List<int> face = faces[f];
+            for (int i = 0; i + 1 < face.Count; ++i)
+            {
+                if (verticesAtuais[face[i]].getY() >= verticesAtuais[face[i + 1]].getY())
+                {
+                    xmax = verticesAtuais[face[i]].getX();
+                    ymax = verticesAtuais[face[i]].getY();
+                    zmax = verticesAtuais[face[i]].getZ();
+                    rm = vetNvertices[face[i]].getX();
+                    gm = vetNvertices[face[i]].getY();
+                    bm = vetNvertices[face[i]].getZ();
+                    xmin = verticesAtuais[face[i + 1]].getX();
+                    ymin = verticesAtuais[face[i + 1]].getY();
+                    zmin = verticesAtuais[face[i + 1]].getZ();
+                    rl = vetNvertices[face[i + 1]].getX();
+                    gl = vetNvertices[face[i + 1]].getY();
+                    bl = vetNvertices[face[i + 1]].getZ();
+                }
+                else
+                {
+                    xmin = verticesAtuais[face[i]].getX();
+                    ymin = verticesAtuais[face[i]].getY();
+                    zmin = verticesAtuais[face[i]].getZ();
+                    rl = vetNvertices[face[i]].getX();
+                    gl = vetNvertices[face[i]].getY();
+                    bl = vetNvertices[face[i]].getZ();
+                    xmax = verticesAtuais[face[i + 1]].getX();
+                    ymax = verticesAtuais[face[i + 1]].getY();
+                    zmax = verticesAtuais[face[i + 1]].getZ();
+                    rm = vetNvertices[face[i + 1]].getX();
+                    gm = vetNvertices[face[i + 1]].getY();
+                    bm = vetNvertices[face[i + 1]].getZ();
+                }
+                dx = xmax - xmin;
+                dy = ymax - ymin;
+                dz = zmax - zmin;
+
+                incx = (dy != 0) ? dx / dy : 0;
+                incz = dy != 0 ? dz / dy : 0;
+                incrx = (rm - rl) / dy;
+                incgy = (gm - gl) / dy;
+                incbz = (bm - bl) / dy;
+
+                y = (int)ymin + ty;
+                if (y < 0) y = 0;
+                else if (y >= height) y = height - 1;
+                if (et.getAET(y) == null)
+                    et.init(y);
+                et.getAET(y).add(new No((int)ymax + ty, xmin + tx, incx, zmin, incz,
+                    rl, gl, bl, incrx, incgy, incbz));
+            }
+
+            if (verticesAtuais[face[0]].getY() >= verticesAtuais[face[face.Count - 1]].getY())
+            {
+                xmax = verticesAtuais[face[0]].getX();
+                ymax = verticesAtuais[face[0]].getY();
+                zmax = verticesAtuais[face[0]].getZ();
+                rm = vetNvertices[face[0]].getX();
+                gm = vetNvertices[face[0]].getY();
+                bm = vetNvertices[face[0]].getZ();
+                xmin = verticesAtuais[face[face.Count - 1]].getX();
+                ymin = verticesAtuais[face[face.Count - 1]].getY();
+                zmin = verticesAtuais[face[face.Count - 1]].getZ();
+                rl = vetNvertices[face[face.Count - 1]].getX();
+                gl = vetNvertices[face[face.Count - 1]].getY();
+                bl = vetNvertices[face[face.Count - 1]].getZ();
+            }
+            else
+            {
+                xmin = verticesAtuais[face[0]].getX();
+                ymin = verticesAtuais[face[0]].getY();
+                zmin = verticesAtuais[face[0]].getZ();
+                rl = vetNvertices[face[0]].getX();
+                gl = vetNvertices[face[0]].getY();
+                bl = vetNvertices[face[0]].getZ();
+                xmax = verticesAtuais[face[face.Count - 1]].getX();
+                ymax = verticesAtuais[face[face.Count - 1]].getY();
+                zmax = verticesAtuais[face[face.Count - 1]].getZ();
+                rm = vetNvertices[face[face.Count - 1]].getX();
+                gm = vetNvertices[face[face.Count - 1]].getY();
+                bm = vetNvertices[face[face.Count - 1]].getZ();
+            }
+            dx = xmax - xmin;
+            dy = ymax - ymin;
+            dz = zmax - zmin;
+
+            incx = (dy != 0) ? dx / dy : 0;
+            incz = dy != 0 ? dz / dy : 0;
+            incrx = (rm - rl) / dy;
+            incgy = (gm - gl) / dy;
+            incbz = (bm - bl) / dy;
+
+            y = (int)ymin + ty;
+            if (y < 0) y = 0;
+            else if (y >= height) y = height - 1;
+            if (et.getAET(y) == null)
+                et.init(y);
+            et.getAET(y).add(new No((int)ymax + ty, xmin + tx, incx, zmin, incz,
+                rl, gl, bl, incrx, incgy, incbz));
+            return et;
+        }
+        public ET gerarETFaceGouraud(int f, int height, int tx, int ty, Ponto luz, Ponto eye, int n,
+    Ponto ia, Ponto id, Ponto ie, Ponto ka, Ponto kd, Ponto ke)
+        {
+            Ponto cl, cm;
+            ET et = new ET(height + 1);
+            double xmax, ymax, zmax, xmin, ymin, zmin, dx, dy, dz;
+            double incx, incz, incrx, incgy, incbz;
+            int y;
+            List<int> face = faces[f];
+            for (int i = 0; i + 1 < face.Count; ++i)
+            { // do primeiro ponto até o ultimo
+                if (verticesAtuais[face[i]].getY() >= verticesAtuais[face[i + 1]].getY())
+                {
+                    xmax = verticesAtuais[face[i]].getX();
+                    ymax = verticesAtuais[face[i]].getY();
+                    zmax = verticesAtuais[face[i]].getZ();
+                    cm = Cores.corPhong(luz, eye, vetNvertices[face[i]], n, ia, id, ie, ka, kd, ke);
+                    xmin = verticesAtuais[face[i + 1]].getX();
+                    ymin = verticesAtuais[face[i + 1]].getY();
+                    zmin = verticesAtuais[face[i + 1]].getZ();
+                    cl = Cores.corPhong(luz, eye, vetNvertices[face[i + 1]], n, ia, id, ie, ka, kd, ke);
+
+                }
+                else
+                {
+                    xmin = verticesAtuais[face[i]].getX();
+                    ymin = verticesAtuais[face[i]].getY();
+                    zmin = verticesAtuais[face[i]].getZ();
+                    cl = Cores.corPhong(luz, eye, vetNvertices[face[i]], n, ia, id, ie, ka, kd, ke);
+                    xmax = verticesAtuais[face[i + 1]].getX();
+                    ymax = verticesAtuais[face[i + 1]].getY();
+                    zmax = verticesAtuais[face[i + 1]].getZ();
+                    cm = Cores.corPhong(luz, eye, vetNvertices[face[i + 1]], n, ia, id, ie, ka, kd, ke);
+                }
+                dx = xmax - xmin;
+                dy = ymax - ymin;
+                dz = zmax - zmin;
+
+                incx = (dy != 0) ? dx / dy : 0;
+                incz = dy != 0 ? dz / dy : 0;
+                incrx = (cm.getX() - cl.getX()) / dy;
+                incgy = (cm.getY() - cl.getY()) / dy;
+                incbz = (cm.getZ() - cl.getZ()) / dy;
+
+                y = (int)ymin + ty;
+                if (y < 0) y = 0;
+                else if (y >= height) y = height - 1;
+                if (et.getAET(y) == null)
+                    et.init(y);
+                et.getAET(y).add(new No((int)ymax + ty, xmin + tx, incx, zmin, incz,
+                    cl.getX(), cl.getY(), cl.getZ(), incrx, incgy, incbz));
+            }// fim for
+             // ultimo com o primeiro
+            if (verticesAtuais[face[0]].getY() >= verticesAtuais[face[face.Count - 1]].getY())
+            {
+                xmax = verticesAtuais[face[0]].getX();
+                ymax = verticesAtuais[face[0]].getY();
+                zmax = verticesAtuais[face[0]].getZ();
+                cm = Cores.corPhong(luz, eye, vetNvertices[face[0]], n, ia, id, ie, ka, kd, ke);
+                xmin = verticesAtuais[face[face.Count - 1]].getX();
+                ymin = verticesAtuais[face[face.Count - 1]].getY();
+                zmin = verticesAtuais[face[face.Count - 1]].getZ();
+                cl = Cores.corPhong(luz, eye, vetNvertices[face[face.Count - 1]], n, ia, id, ie, ka, kd, ke);
+            }
+            else
+            {
+                xmin = verticesAtuais[face[0]].getX();
+                ymin = verticesAtuais[face[0]].getY();
+                zmin = verticesAtuais[face[0]].getZ();
+                cl = Cores.corPhong(luz, eye, vetNvertices[face[0]], n, ia, id, ie, ka, kd, ke);
+                xmax = verticesAtuais[face[face.Count - 1]].getX();
+                ymax = verticesAtuais[face[face.Count - 1]].getY();
+                zmax = verticesAtuais[face[face.Count - 1]].getZ();
+                cm = Cores.corPhong(luz, eye, vetNvertices[face[face.Count - 1]], n, ia, id, ie, ka, kd, ke);
+            }
+            dx = xmax - xmin;
+            dy = ymax - ymin;
+            dz = zmax - zmin;
+
+            incx = (dy != 0) ? dx / dy : 0;
+            incz = dy != 0 ? dz / dy : 0;
+            incrx = (cm.getX() - cl.getX()) / dy;
+            incgy = (cm.getY() - cl.getY()) / dy;
+            incbz = (cm.getZ() - cl.getZ()) / dy;
+
+            y = (int)ymin + ty;
+            if (y < 0) y = 0;
+            else if (y >= height) y = height - 1;
+            if (et.getAET(y) == null)
+                et.init(y);
+            et.getAET(y).add(new No((int)ymax + ty, xmin + tx, incx, zmin, incz,
+                cl.getX(), cl.getY(), cl.getZ(), incrx, incgy, incbz));
+            return et;
+        }
+
+        public ET gerarETFaceFlat(int f, int height, int tx, int ty, Ponto Luz, Ponto Eye, int n,
+    Ponto ia, Ponto id, Ponto ie, Ponto ka, Ponto kd, Ponto ke)
+        {
+            Ponto cor;
+            ET et = new ET(height + 1);
+            double xmax, ymax, zmax, xmin, ymin, zmin, dx, dy, dz;
+            double incx, incz;
+            int y;
+            List<int> face = faces[f];
+            cor = Cores.corPhong(Luz, Eye, vetNfaces[f], n, ia, id, ie, ka, kd, ke);
+            for (int i = 0; i + 1 < face.Count; ++i)
+            { // do primeiro ponto até o ultimo
+                if (verticesAtuais[face[i]].getY() >= verticesAtuais[face[i + 1]].getY())
+                {
+                    xmax = verticesAtuais[face[i]].getX();
+                    ymax = verticesAtuais[face[i]].getY();
+                    zmax = verticesAtuais[face[i]].getZ();
+                    xmin = verticesAtuais[face[i + 1]].getX();
+                    ymin = verticesAtuais[face[i + 1]].getY();
+                    zmin = verticesAtuais[face[i + 1]].getZ();
+
+                }
+                else
+                {
+                    xmin = verticesAtuais[face[i]].getX();
+                    ymin = verticesAtuais[face[i]].getY();
+                    zmin = verticesAtuais[face[i]].getZ();
+                    xmax = verticesAtuais[face[i + 1]].getX();
+                    ymax = verticesAtuais[face[i + 1]].getY();
+                    zmax = verticesAtuais[face[i + 1]].getZ();
+                }
+                dx = xmax - xmin;
+                dy = ymax - ymin;
+                dz = zmax - zmin;
+
+                incx = (dy != 0) ? dx / dy : 0;
+                incz = dy != 0 ? dz / dy : 0;
+
+                y = (int)ymin + ty;
+                if (y < 0) y = 0;
+                else if (y >= height) y = height - 1;
+                if (et.getAET(y) == null)
+                    et.init(y);
+                et.getAET(y).add(new No((int)ymax + ty, xmin + tx, incx, zmin, incz,
+                    cor.getX(), cor.getY(), cor.getZ(), 0, 0, 0));
+            }// fim for
+             // ultimo com o primeiro
+            if (verticesAtuais[face[0]].getY() >= verticesAtuais[face[face.Count - 1]].getY())
+            {
+                xmax = verticesAtuais[face[0]].getX();
+                ymax = verticesAtuais[face[0]].getY();
+                zmax = verticesAtuais[face[0]].getZ();
+                xmin = verticesAtuais[face[face.Count - 1]].getX();
+                ymin = verticesAtuais[face[face.Count - 1]].getY();
+                zmin = verticesAtuais[face[face.Count - 1]].getZ();
+            }
+            else
+            {
+                xmin = verticesAtuais[face[0]].getX();
+                ymin = verticesAtuais[face[0]].getY();
+                zmin = verticesAtuais[face[0]].getZ();
+                xmax = verticesAtuais[face[face.Count - 1]].getX();
+                ymax = verticesAtuais[face[face.Count - 1]].getY();
+                zmax = verticesAtuais[face[face.Count - 1]].getZ();
+            }
+            dx = xmax - xmin;
+            dy = ymax - ymin;
+            dz = zmax - zmin;
+
+            incx = (dy != 0) ? dx / dy : 0;
+            incz = dy != 0 ? dz / dy : 0;
+
+            y = (int)ymin + ty;
+            if (y < 0) y = 0;
+            else if (y >= height) y = height - 1;
+            if (et.getAET(y) == null)
+                et.init(y);
+            et.getAET(y).add(new No((int)ymax + ty, xmin + tx, incx, zmin, incz,
+                cor.getX(), cor.getY(), cor.getZ(), 0, 0, 0));
+            return et;
+        }
+
+
+
+
     }
 }
