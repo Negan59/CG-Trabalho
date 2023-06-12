@@ -1,4 +1,4 @@
-﻿namespace _3DViewer
+﻿namespace CG_Trabalho
 {
     partial class FormPrincipal
     {

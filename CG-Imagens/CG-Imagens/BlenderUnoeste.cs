@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using CG_Imagens.entidades;
 
-namespace _3DViewer
+namespace CG_Trabalho
 {
     public partial class FormPrincipal : Form
     {
@@ -172,7 +172,7 @@ namespace _3DViewer
             {
                 Thread.Sleep(200);
                 bmpPrincipal = new Bitmap(pbPrincipal.Width, pbPrincipal.Height);
-                draw.paint(bmpPrincipal, Color.Black);
+                draw.projetaObjeto(bmpPrincipal, Color.Black);
                 this.Invoke(new MethodInvoker(delegate ()
                 {
                     pbPrincipal.Image = bmpPrincipal;
@@ -227,7 +227,7 @@ namespace _3DViewer
             {
                 double d;
                 double.TryParse(tbD.Text, out d);
-                draw.paint(bmpPrincipal, fundo);
+                draw.projetaObjeto(bmpPrincipal, fundo);
                 if (cbProjecao.Text == "Perspectiva")
                 {
                     draw.projecaoPerspectivaXY(bmpPrincipal, obj, tx, ty, material, ckFacesOcultas.Checked, (d = double.Parse(tbD.Text)));
@@ -253,7 +253,7 @@ namespace _3DViewer
             }
             else if (bmpPrincipal != null)
             {
-                draw.paint(bmpPrincipal, Color.White);
+                draw.projetaObjeto(bmpPrincipal, Color.White);
                 pbPrincipal.Refresh();
             }
         }

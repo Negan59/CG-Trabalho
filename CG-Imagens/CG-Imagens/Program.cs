@@ -1,4 +1,4 @@
-using _3DViewer;
+using CG_Trabalho;
 
 namespace CG_Imagens
 {

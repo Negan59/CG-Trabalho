@@ -4,7 +4,7 @@ C:\Users\guilu\Videos\CG-Trabalho\CG-Imagens\CG-Imagens\obj\Debug\net6.0-windows
 C:\Users\guilu\Videos\CG-Trabalho\CG-Imagens\CG-Imagens\obj\Debug\net6.0-windows\CG-Imagens.AssemblyInfoInputs.cache
 C:\Users\guilu\Videos\CG-Trabalho\CG-Imagens\CG-Imagens\obj\Debug\net6.0-windows\CG-Imagens.AssemblyInfo.cs
 C:\Users\guilu\Videos\CG-Trabalho\CG-Imagens\CG-Imagens\obj\Debug\net6.0-windows\CG-Imagens.csproj.CoreCompileInputs.cache
-C:\Users\guilu\Videos\CG-Trabalho\CG-Imagens\CG-Imagens\obj\Debug\net6.0-windows\_3DViewer.FormPrincipal.resources
+C:\Users\guilu\Videos\CG-Trabalho\CG-Imagens\CG-Imagens\obj\Debug\net6.0-windows\CG_Trabalho.FormPrincipal.resources
 C:\Users\guilu\Videos\CG-Trabalho\CG-Imagens\CG-Imagens\bin\Debug\net6.0-windows\CG-Imagens.exe
 C:\Users\guilu\Videos\CG-Trabalho\CG-Imagens\CG-Imagens\bin\Debug\net6.0-windows\CG-Imagens.deps.json
 C:\Users\guilu\Videos\CG-Trabalho\CG-Imagens\CG-Imagens\bin\Debug\net6.0-windows\CG-Imagens.runtimeconfig.json
@@ -15,7 +15,6 @@ C:\Users\guilu\Videos\CG-Trabalho\CG-Imagens\CG-Imagens\obj\Debug\net6.0-windows
 C:\Users\guilu\Videos\CG-Trabalho\CG-Imagens\CG-Imagens\obj\Debug\net6.0-windows\CG-Imagens.pdb
 C:\Users\guilu\Videos\CG-Trabalho\CG-Imagens\CG-Imagens\obj\Debug\net6.0-windows\CG-Imagens.genruntimeconfig.cache
 C:\Users\guilu\Videos\CG-Trabalho\CG-Imagens\CG-Imagens\obj\Debug\net6.0-windows\ref\CG-Imagens.dll
-C:\Users\guilu\Videos\CG-Trabalho\CG-Imagens\CG-Imagens\obj\Debug\net6.0-windows\CG_Imagens.Form1.resources
 C:\Users\guilu\Videos\CG-Trabalho\CG-Imagens\CG-Imagens\obj\Debug\net6.0-windows\CG_Imagens.Properties.Resources.resources
 D:\CG-Trabalho\CG-Imagens\CG-Imagens\bin\Debug\net6.0-windows\CG-Imagens.exe
 D:\CG-Trabalho\CG-Imagens\CG-Imagens\bin\Debug\net6.0-windows\CG-Imagens.deps.json
@@ -23,7 +22,7 @@ D:\CG-Trabalho\CG-Imagens\CG-Imagens\bin\Debug\net6.0-windows\CG-Imagens.runtime
 D:\CG-Trabalho\CG-Imagens\CG-Imagens\bin\Debug\net6.0-windows\CG-Imagens.dll
 D:\CG-Trabalho\CG-Imagens\CG-Imagens\bin\Debug\net6.0-windows\CG-Imagens.pdb
 D:\CG-Trabalho\CG-Imagens\CG-Imagens\obj\Debug\net6.0-windows\CG-Imagens.csproj.AssemblyReference.cache
-D:\CG-Trabalho\CG-Imagens\CG-Imagens\obj\Debug\net6.0-windows\_3DViewer.FormPrincipal.resources
+D:\CG-Trabalho\CG-Imagens\CG-Imagens\obj\Debug\net6.0-windows\CG_Trabalho.FormPrincipal.resources
 D:\CG-Trabalho\CG-Imagens\CG-Imagens\obj\Debug\net6.0-windows\CG_Imagens.Properties.Resources.resources
 D:\CG-Trabalho\CG-Imagens\CG-Imagens\obj\Debug\net6.0-windows\CG-Imagens.csproj.GenerateResource.cache
 D:\CG-Trabalho\CG-Imagens\CG-Imagens\obj\Debug\net6.0-windows\CG-Imagens.GeneratedMSBuildEditorConfig.editorconfig
@@ -41,7 +40,7 @@ C:\Users\marin\Documents\GitHub\CG-Trabalho\CG-Imagens\CG-Imagens\bin\Debug\net6
 C:\Users\marin\Documents\GitHub\CG-Trabalho\CG-Imagens\CG-Imagens\bin\Debug\net6.0-windows\CG-Imagens.dll
 C:\Users\marin\Documents\GitHub\CG-Trabalho\CG-Imagens\CG-Imagens\bin\Debug\net6.0-windows\CG-Imagens.pdb
 C:\Users\marin\Documents\GitHub\CG-Trabalho\CG-Imagens\CG-Imagens\obj\Debug\net6.0-windows\CG-Imagens.csproj.AssemblyReference.cache
-C:\Users\marin\Documents\GitHub\CG-Trabalho\CG-Imagens\CG-Imagens\obj\Debug\net6.0-windows\_3DViewer.FormPrincipal.resources
+C:\Users\marin\Documents\GitHub\CG-Trabalho\CG-Imagens\CG-Imagens\obj\Debug\net6.0-windows\CG_Trabalho.FormPrincipal.resources
 C:\Users\marin\Documents\GitHub\CG-Trabalho\CG-Imagens\CG-Imagens\obj\Debug\net6.0-windows\CG_Imagens.Properties.Resources.resources
 C:\Users\marin\Documents\GitHub\CG-Trabalho\CG-Imagens\CG-Imagens\obj\Debug\net6.0-windows\CG-Imagens.csproj.GenerateResource.cache
 C:\Users\marin\Documents\GitHub\CG-Trabalho\CG-Imagens\CG-Imagens\obj\Debug\net6.0-windows\CG-Imagens.GeneratedMSBuildEditorConfig.editorconfig

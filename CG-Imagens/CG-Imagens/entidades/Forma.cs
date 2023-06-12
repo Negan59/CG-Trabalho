@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,7 +13,7 @@ namespace CG_Imagens.entidades
         private List<List<int>> faces, listaFacesVertices;
         private List<Ponto> verticesOri, verticesAtuais;
         private Ponto[] vetNfaces, vetNvertices;
-        private double[,] matrizTransformacao; // 4x4
+        private double[,] matrizTransformacao;
         private double mx, my, mz, lx, ly, lz;
 
 
@@ -150,7 +151,7 @@ namespace CG_Imagens.entidades
             this.pcentro = new Ponto(xm / d, ym / d, zm / d);
             read.Close();
             file.Close();
-            calcularVetoresNormais(); // caso ja abra sem faces ocultas
+            calcularVetoresNormais();
         }
 
         public void addVertice(Ponto ponto)
@@ -175,41 +176,75 @@ namespace CG_Imagens.entidades
         private double[,] multiplicar(double[,] m1, double[,] m2)
         {
             int l1 = m1.GetLength(0), c1 = m1.GetLength(1);
-            int l2 = m1.GetLength(0), c2 = m2.GetLength(1);
+            int l2 = m2.GetLength(0), c2 = m2.GetLength(1);
+
+            if (c1 != l2)
+            {
+                throw new ArgumentException("As dimensões das matrizes não são compatíveis.");
+            }
+
             double[,] mat = new double[l1, c2];
-            for (int i = 0; i < l1; ++i) 
-                for (int j = 0; j < c2; ++j)
-                    for (int k = 0; k < l1; ++k)
-                        mat[i, j] += m1[i, k] * m2[k, j];
+
+            for (int i = 0; i < l1; i++)
+            {
+                for (int j = 0; j < c2; j++)
+                {
+                    double sum = 0.0;
+                    for (int k = 0; k < c1; k++)
+                    {
+                        sum += m1[i, k] * m2[k, j];
+                    }
+                    mat[i, j] = sum;
+                }
+            }
+
             return mat;
+
         }
 
 
 
         private void atualizarVertices()
         {
-            Ponto ponto;
-            double[,] matp;
-            double x, y, z;
-            x = y = z = 0;
-            mx = my = mz = 0;
-            lx = ly = lz = int.MaxValue;
-            verticesAtuais = new List<Ponto>();
-            for (int i = 0; i < verticesOri.Count; ++i)
-            {
-                ponto = verticesOri[i];
-                matp = multiplicar(matrizTransformacao, Ponto2Matriz(ponto));
-                verticesAtuais.Add(new Ponto(matp[0, 0], matp[1, 0], matp[2, 0]));
-                x += matp[0, 0]; y += matp[1, 0]; z += matp[2, 0];
-                if (matp[0, 0] > mx) mx = matp[0, 0];
-                else if (matp[0, 0] < lx) lx = matp[0, 0];
-                if (matp[1, 0] > my) my = matp[1, 0];
-                else if (matp[1, 0] < ly) ly = matp[1, 0];
-            }
-            int d = verticesOri.Count;
-            pcentro = new Ponto(Math.Round(x / d), Math.Round(y / d), Math.Round(z / d));
-        }
+            Ponto centro = new Ponto(0, 0, 0);
+            double maxX = double.MinValue, minX = double.MaxValue;
+            double maxY = double.MinValue, minY = double.MaxValue;
+            double somaX = 0, somaY = 0, somaZ = 0;
 
+            verticesAtuais = new List<Ponto>();
+
+            for (int i = 0; i < verticesOri.Count; i++)
+            {
+                Ponto ponto = verticesOri[i];
+                double[,] matp = multiplicar(matrizTransformacao, Ponto2Matriz(ponto));
+
+                double x = matp[0, 0];
+                double y = matp[1, 0];
+                double z = matp[2, 0];
+
+                verticesAtuais.Add(new Ponto(x, y, z));
+
+                somaX += x;
+                somaY += y;
+                somaZ += z;
+
+                if (x > maxX)
+                    maxX = x;
+                if (x < minX)
+                    minX = x;
+                if (y > maxY)
+                    maxY = y;
+                if (y < minY)
+                    minY = y;
+            }
+
+            int totalVertices = verticesOri.Count;
+
+            centro.setX(Math.Round(somaX / totalVertices));
+            centro.setY(Math.Round(somaY / totalVertices));
+            centro.setZ(Math.Round(somaZ / totalVertices));
+
+        }
         public double[,] Ponto2Matriz(Ponto ponto)
         {
             double[,] matp = new double[4, 1];
@@ -220,25 +255,9 @@ namespace CG_Imagens.entidades
             return matp;
         }
 
-        public Ponto matriz2Ponto(double[,] m)
-        {
-            return new Ponto(m[0, 0], m[1, 0], m[2, 0]);
-        }
-
         public void atualizarVetoresNormaisFaces()
         {
             calcularVetoresNormais();
-        }
-
-        public void atualizarVetoresNormaisVertices()
-        {
-            for (int i = 0; i < vetNvertices.Length; ++i)
-            {
-                List<Ponto> normais = new List<Ponto>();
-                foreach (int j in listaFacesVertices[i])
-                    normais.Add(vetNfaces[j]);
-                vetNvertices[i] = mediaVetsNormais(normais);
-            }
         }
 
         public void rotacaoX(double r, bool ocultas)
@@ -308,34 +327,17 @@ namespace CG_Imagens.entidades
                 atualizarVetoresNormaisFaces();
         }
 
-        public void translacaoX(int tx)
-        {
-            translacao(tx, 0, 0);
-        }
-
-        public void translacaoY(int ty)
-        {
-            translacao(0, ty, 0);
-        }
-
-        public void translacaoZ(int tz)
-        {
-            translacao(0, 0, tz);
-        }
-
         public void translacao(int tx, int ty, int tz)
         {
-            /*
+            
             double[,] trans = gerarMatrizIdentidade(4);
             trans[0, 3] = tx;
             trans[1, 3] = ty;
             trans[2, 3] = tz;
             matrizTransformacao = multiplicar(trans, matrizTransformacao);
             atualizarVertices();
-            */
+            
         }
-
-        
 
         public void escala(double sx, double sy, double sz)
         {
@@ -368,7 +370,6 @@ namespace CG_Imagens.entidades
         {
             Ponto vn;
             inicializarVetoresNormais();
-            // normais das faces
             for (int i = 0; i < faces.Count; ++i)
             {
                 vn = vetorNormal(faces[i]);
@@ -376,20 +377,6 @@ namespace CG_Imagens.entidades
                 vetNfaces[i] = vn;
             }
         }
-
-        private Ponto mediaVetsNormais(List<Ponto> normais)
-        {
-            double x, y, z, d = normais.Count;
-            x = y = z = 0;
-            foreach (Ponto v in normais)
-            {
-                x += v.getX();
-                y += v.getY();
-                z += v.getZ();
-            }
-            return new Ponto(x / d, y / d, z / d);
-        }
-
         private Ponto vetorNormal(List<int> face)
         {
             Ponto a, b, n;
@@ -401,18 +388,6 @@ namespace CG_Imagens.entidades
             Ponto vn = ab.produtoVetorial(an);
             return vn;
         }
-
-
-        public Ponto[] getVetoresNormaisFaces()
-        {
-            return vetNfaces;
-        }
-
-        public Ponto[] getVetoresNormaisVertices()
-        {
-            return vetNvertices;
-        }
-
 
 
         

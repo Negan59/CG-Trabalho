@@ -12,17 +12,6 @@ namespace CG_Imagens.entidades
         private const double pi = Math.PI;
         private int CX, CY;
 
-
-        private double abs(double a)
-        {
-            return Math.Abs(a);
-        }
-
-        private int abs(int a)
-        {
-            return Math.Abs(a);
-        }
-
         private unsafe byte* gotoxy(BitmapData bmp, int x, int y)
         {
             byte* aux = (byte*)bmp.Scan0.ToPointer();
@@ -112,7 +101,7 @@ namespace CG_Imagens.entidades
             return x >= 0 && x < bmp.Width && y >= 0 && y < bmp.Height;
         }
 
-        public void paint(Bitmap bmp, Color cor)
+        public void projetaObjeto(Bitmap bmp, Color cor)
         {
 
             BitmapData bmpdata = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height),
@@ -281,36 +270,49 @@ namespace CG_Imagens.entidades
 
         private unsafe void projetaFacePerspectivaXY(BitmapData data, List<int> f, List<Ponto> vertices, double d, Color cor)
         {
-            Ponto p1, p2;
-            int i;
-            double x1, y1, z1, x2, y2, z2;
-            for (i = 0; i + 1 < f.Count; ++i)
+            int cx = CX;
+            int cy = CY;
+            int numVertices = vertices.Count;
+
+            for (int i = 0; i < f.Count - 1; i++)
             {
-                p1 = vertices[f[i]];
-                p2 = vertices[f[i + 1]];
-                x1 = p1.getX(); y1 = p1.getY(); z1 = p1.getZ();
-                x2 = p2.getX(); y2 = p2.getY(); z2 = p2.getZ();
-                x1 = x1 * d / (z1 += d);
-                y1 = y1 * d / z1;
-                x2 = x2 * d / (z2 += d);
-                y2 = y2 * d / z2;
-                pontoMedio(data, (int)x1 + CX, (int)y1 + CY,
-                    (int)x2 + CX, (int)y2 + CY, cor);
+                Ponto p1 = vertices[f[i]];
+                Ponto p2 = vertices[f[i + 1]];
+
+                double x1 = p1.getX();
+                double y1 = p1.getY();
+                double z1 = p1.getZ();
+                double x2 = p2.getX();
+                double y2 = p2.getY();
+                double z2 = p2.getZ();
+
+                x1 *= d / (z1 + d);
+                y1 *= d / (z1 + d);
+                x2 *= d / (z2 + d);
+                y2 *= d / (z2 + d);
+
+                pontoMedio(data, (int)(x1 + cx), (int)(y1 + cy), (int)(x2 + cx), (int)(y2 + cy), cor);
             }
-            i = f.Count - 1;
-            p1 = vertices[f[i]];
-            p2 = vertices[f[0]];
-            x1 = p1.getX(); y1 = p1.getY(); z1 = p1.getZ();
-            x2 = p2.getX(); y2 = p2.getY(); z2 = p2.getZ();
-            x1 = x1 * d / (z1 += d);
-            y1 = y1 * d / z1;
-            x2 = x2 * d / (z2 += d);
-            y2 = y2 * d / z2;
-            pontoMedio(data, (int)x1 + CX, (int)y1 + CY,
-                (int)x2 + CX, (int)y2 + CY, cor);
+
+            Ponto p1Last = vertices[f[f.Count - 1]];
+            Ponto p2First = vertices[f[0]];
+
+            double x1Last = p1Last.getX();
+            double y1Last = p1Last.getY();
+            double z1Last = p1Last.getZ();
+            double x2First = p2First.getX();
+            double y2First = p2First.getY();
+            double z2First = p2First.getZ();
+
+            x1Last *= d / (z1Last + d);
+            y1Last *= d / (z1Last + d);
+            x2First *= d / (z2First + d);
+            y2First *= d / (z2First + d);
+
+            pontoMedio(data, (int)(x1Last + cx), (int)(y1Last + cy), (int)(x2First + cx), (int)(y2First + cy), cor);
         }
 
-        
+
 
     }
 }
