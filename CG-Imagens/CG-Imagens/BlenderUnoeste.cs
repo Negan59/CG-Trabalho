@@ -327,7 +327,7 @@ namespace CG_Trabalho
 
             Luz = new Ponto(x - (obj.getCentro().getX() + tx), y - (obj.getCentro().getY() + ty), 1);
             Luz = Luz.normalizar();
-            Luz.setZ(1);
+            Luz.setZ((double)luzPotencia.Value);
             luzBtn.Refresh();
         }
 
@@ -353,5 +353,7 @@ namespace CG_Trabalho
                 atualizarObjeto();
             }
         }
+
+
     }
 }

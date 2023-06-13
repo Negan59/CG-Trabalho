@@ -53,11 +53,14 @@
             materialColor = new ColorDialog();
             fundoColor = new ColorDialog();
             luzBtn = new Button();
+            luzPotencia = new NumericUpDown();
+            label5 = new Label();
             tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
             cores.SuspendLayout();
             tabControl.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pbPrincipal).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)luzPotencia).BeginInit();
             SuspendLayout();
             // 
             // openFileDialog
@@ -316,11 +319,33 @@
             luzBtn.MouseMove += mouseLuzMove;
             luzBtn.MouseUp += mouseSobe;
             // 
+            // luzPotencia
+            // 
+            luzPotencia.Location = new Point(796, 100);
+            luzPotencia.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            luzPotencia.Name = "luzPotencia";
+            luzPotencia.Size = new Size(120, 23);
+            luzPotencia.TabIndex = 5;
+            luzPotencia.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.BackColor = SystemColors.WindowText;
+            label5.ForeColor = SystemColors.Window;
+            label5.Location = new Point(718, 102);
+            label5.Name = "label5";
+            label5.Size = new Size(75, 15);
+            label5.TabIndex = 6;
+            label5.Text = "Luz distância";
+            // 
             // FormPrincipal
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1348, 633);
+            Controls.Add(label5);
+            Controls.Add(luzPotencia);
             Controls.Add(luzBtn);
             Controls.Add(pbPrincipal);
             Controls.Add(tabControl);
@@ -335,7 +360,9 @@
             cores.PerformLayout();
             tabControl.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pbPrincipal).EndInit();
+            ((System.ComponentModel.ISupportInitialize)luzPotencia).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -365,6 +392,8 @@
         private NumericUpDown numericUpDown1;
         private Label label4;
         private Button luzBtn;
+        private NumericUpDown luzPotencia;
+        private Label label5;
     }
 }
 
