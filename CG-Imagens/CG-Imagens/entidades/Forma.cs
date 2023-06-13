@@ -414,10 +414,11 @@ namespace CG_Imagens.entidades
             }
         }
 
-        internal ET gerarETFacePhong(int f, int height, int tx, int ty, Ponto luz, Ponto eye, int n, Ponto ia, Ponto id, Ponto ie, Ponto ka, Ponto kd, Ponto ke)
+        internal ET gerarETFacePhong(int f, int height, int tx, int ty, Ponto luz, Ponto eye, int n, Ponto ia, Ponto id, Ponto ie, Ponto ka, Ponto kd, Ponto ke, Color cor)
         {
+            Color m, l;
             ET et = new ET(height + 1);
-            double xmax, ymax, zmax, xmin, ymin, zmin, dx, dy, dz, rl, rm, gl, gm, bl, bm;
+            double xmax, ymax, zmax, xmin, ymin, zmin, dx, dy, dz;
             double incx, incz, incrx, incgy, incbz;
             int y;
             List<int> face = faces[f];
@@ -428,30 +429,22 @@ namespace CG_Imagens.entidades
                     xmax = verticesAtuais[face[i]].getX();
                     ymax = verticesAtuais[face[i]].getY();
                     zmax = verticesAtuais[face[i]].getZ();
-                    rm = vetNvertices[face[i]].getX();
-                    gm = vetNvertices[face[i]].getY();
-                    bm = vetNvertices[face[i]].getZ();
+                    m = Cores.corPhong(luz, eye, vetNvertices[face[i]], n, ia, id, ie, ka, kd, ke, cor);
                     xmin = verticesAtuais[face[i + 1]].getX();
                     ymin = verticesAtuais[face[i + 1]].getY();
                     zmin = verticesAtuais[face[i + 1]].getZ();
-                    rl = vetNvertices[face[i + 1]].getX();
-                    gl = vetNvertices[face[i + 1]].getY();
-                    bl = vetNvertices[face[i + 1]].getZ();
+                    l = Cores.corPhong(luz, eye, vetNvertices[face[i+1]], n, ia, id, ie, ka, kd, ke, cor);
                 }
                 else
                 {
                     xmin = verticesAtuais[face[i]].getX();
                     ymin = verticesAtuais[face[i]].getY();
                     zmin = verticesAtuais[face[i]].getZ();
-                    rl = vetNvertices[face[i]].getX();
-                    gl = vetNvertices[face[i]].getY();
-                    bl = vetNvertices[face[i]].getZ();
+                    l = Cores.corPhong(luz, eye, vetNvertices[face[i]], n, ia, id, ie, ka, kd, ke, cor);
                     xmax = verticesAtuais[face[i + 1]].getX();
                     ymax = verticesAtuais[face[i + 1]].getY();
                     zmax = verticesAtuais[face[i + 1]].getZ();
-                    rm = vetNvertices[face[i + 1]].getX();
-                    gm = vetNvertices[face[i + 1]].getY();
-                    bm = vetNvertices[face[i + 1]].getZ();
+                    m = Cores.corPhong(luz, eye, vetNvertices[face[i+1]], n, ia, id, ie, ka, kd, ke, cor);
                 }
                 dx = xmax - xmin;
                 dy = ymax - ymin;
@@ -459,9 +452,9 @@ namespace CG_Imagens.entidades
 
                 incx = (dy != 0) ? dx / dy : 0;
                 incz = dy != 0 ? dz / dy : 0;
-                incrx = (rm - rl) / dy;
-                incgy = (gm - gl) / dy;
-                incbz = (bm - bl) / dy;
+                incrx = (m.R - l.R) / dy;
+                incgy = (m.G - l.G) / dy;
+                incbz = (m.B - l.B) / dy;
 
                 y = (int)ymin + ty;
                 if (y < 0) y = 0;
@@ -469,7 +462,7 @@ namespace CG_Imagens.entidades
                 if (et.getAET(y) == null)
                     et.init(y);
                 et.getAET(y).add(new No((int)ymax + ty, xmin + tx, incx, zmin, incz,
-                    rl, gl, bl, incrx, incgy, incbz));
+                    l.R, l.G, l.B, incrx, incgy, incbz));
             }
 
             if (verticesAtuais[face[0]].getY() >= verticesAtuais[face[face.Count - 1]].getY())
@@ -477,30 +470,22 @@ namespace CG_Imagens.entidades
                 xmax = verticesAtuais[face[0]].getX();
                 ymax = verticesAtuais[face[0]].getY();
                 zmax = verticesAtuais[face[0]].getZ();
-                rm = vetNvertices[face[0]].getX();
-                gm = vetNvertices[face[0]].getY();
-                bm = vetNvertices[face[0]].getZ();
+                m = Cores.corPhong(luz, eye, vetNvertices[0], n, ia, id, ie, ka, kd, ke, cor);
                 xmin = verticesAtuais[face[face.Count - 1]].getX();
                 ymin = verticesAtuais[face[face.Count - 1]].getY();
                 zmin = verticesAtuais[face[face.Count - 1]].getZ();
-                rl = vetNvertices[face[face.Count - 1]].getX();
-                gl = vetNvertices[face[face.Count - 1]].getY();
-                bl = vetNvertices[face[face.Count - 1]].getZ();
+                l = Cores.corPhong(luz, eye, vetNvertices[face.Count - 1], n, ia, id, ie, ka, kd, ke, cor);
             }
             else
             {
                 xmin = verticesAtuais[face[0]].getX();
                 ymin = verticesAtuais[face[0]].getY();
                 zmin = verticesAtuais[face[0]].getZ();
-                rl = vetNvertices[face[0]].getX();
-                gl = vetNvertices[face[0]].getY();
-                bl = vetNvertices[face[0]].getZ();
+                l = Cores.corPhong(luz, eye, vetNvertices[0], n, ia, id, ie, ka, kd, ke, cor);
                 xmax = verticesAtuais[face[face.Count - 1]].getX();
                 ymax = verticesAtuais[face[face.Count - 1]].getY();
                 zmax = verticesAtuais[face[face.Count - 1]].getZ();
-                rm = vetNvertices[face[face.Count - 1]].getX();
-                gm = vetNvertices[face[face.Count - 1]].getY();
-                bm = vetNvertices[face[face.Count - 1]].getZ();
+                m = Cores.corPhong(luz, eye, vetNvertices[face.Count - 1], n, ia, id, ie, ka, kd, ke, cor);
             }
             dx = xmax - xmin;
             dy = ymax - ymin;
@@ -508,9 +493,9 @@ namespace CG_Imagens.entidades
 
             incx = (dy != 0) ? dx / dy : 0;
             incz = dy != 0 ? dz / dy : 0;
-            incrx = (rm - rl) / dy;
-            incgy = (gm - gl) / dy;
-            incbz = (bm - bl) / dy;
+            incrx = (m.R - l.R) / dy;
+            incgy = (m.G - l.G) / dy;
+            incbz = (m.B - l.B) / dy;
 
             y = (int)ymin + ty;
             if (y < 0) y = 0;
@@ -518,13 +503,17 @@ namespace CG_Imagens.entidades
             if (et.getAET(y) == null)
                 et.init(y);
             et.getAET(y).add(new No((int)ymax + ty, xmin + tx, incx, zmin, incz,
-                rl, gl, bl, incrx, incgy, incbz));
+                l.R, l.G, l.B, incrx, incgy, incbz));
             return et;
         }
+
+
+
+
         public ET gerarETFaceGouraud(int f, int height, int tx, int ty, Ponto luz, Ponto eye, int n,
-    Ponto ia, Ponto id, Ponto ie, Ponto ka, Ponto kd, Ponto ke)
+    Ponto ia, Ponto id, Ponto ie, Ponto ka, Ponto kd, Ponto ke,Color cor)
         {
-            Ponto cl, cm;
+            Color cl, cm;
             ET et = new ET(height + 1);
             double xmax, ymax, zmax, xmin, ymin, zmin, dx, dy, dz;
             double incx, incz, incrx, incgy, incbz;
@@ -537,11 +526,11 @@ namespace CG_Imagens.entidades
                     xmax = verticesAtuais[face[i]].getX();
                     ymax = verticesAtuais[face[i]].getY();
                     zmax = verticesAtuais[face[i]].getZ();
-                    cm = Cores.corPhong(luz, eye, vetNvertices[face[i]], n, ia, id, ie, ka, kd, ke);
+                    cm = Cores.corPhong(luz, eye, vetNvertices[face[i]], n, ia, id, ie, ka, kd, ke,cor);
                     xmin = verticesAtuais[face[i + 1]].getX();
                     ymin = verticesAtuais[face[i + 1]].getY();
                     zmin = verticesAtuais[face[i + 1]].getZ();
-                    cl = Cores.corPhong(luz, eye, vetNvertices[face[i + 1]], n, ia, id, ie, ka, kd, ke);
+                    cl = Cores.corPhong(luz, eye, vetNvertices[face[i + 1]], n, ia, id, ie, ka, kd, ke,cor);
 
                 }
                 else
@@ -549,11 +538,11 @@ namespace CG_Imagens.entidades
                     xmin = verticesAtuais[face[i]].getX();
                     ymin = verticesAtuais[face[i]].getY();
                     zmin = verticesAtuais[face[i]].getZ();
-                    cl = Cores.corPhong(luz, eye, vetNvertices[face[i]], n, ia, id, ie, ka, kd, ke);
+                    cl = Cores.corPhong(luz, eye, vetNvertices[face[i]], n, ia, id, ie, ka, kd, ke,cor);
                     xmax = verticesAtuais[face[i + 1]].getX();
                     ymax = verticesAtuais[face[i + 1]].getY();
                     zmax = verticesAtuais[face[i + 1]].getZ();
-                    cm = Cores.corPhong(luz, eye, vetNvertices[face[i + 1]], n, ia, id, ie, ka, kd, ke);
+                    cm = Cores.corPhong(luz, eye, vetNvertices[face[i + 1]], n, ia, id, ie, ka, kd, ke,cor);
                 }
                 dx = xmax - xmin;
                 dy = ymax - ymin;
@@ -561,9 +550,9 @@ namespace CG_Imagens.entidades
 
                 incx = (dy != 0) ? dx / dy : 0;
                 incz = dy != 0 ? dz / dy : 0;
-                incrx = (cm.getX() - cl.getX()) / dy;
-                incgy = (cm.getY() - cl.getY()) / dy;
-                incbz = (cm.getZ() - cl.getZ()) / dy;
+                incrx = (cm.R - cl.R) / dy;
+                incgy = (cm.G - cl.G) / dy;
+                incbz = (cm.B - cl.B) / dy;
 
                 y = (int)ymin + ty;
                 if (y < 0) y = 0;
@@ -571,7 +560,7 @@ namespace CG_Imagens.entidades
                 if (et.getAET(y) == null)
                     et.init(y);
                 et.getAET(y).add(new No((int)ymax + ty, xmin + tx, incx, zmin, incz,
-                    cl.getX(), cl.getY(), cl.getZ(), incrx, incgy, incbz));
+                    cl.R, cl.G, cl.B, incrx, incgy, incbz));
             }// fim for
              // ultimo com o primeiro
             if (verticesAtuais[face[0]].getY() >= verticesAtuais[face[face.Count - 1]].getY())
@@ -579,22 +568,22 @@ namespace CG_Imagens.entidades
                 xmax = verticesAtuais[face[0]].getX();
                 ymax = verticesAtuais[face[0]].getY();
                 zmax = verticesAtuais[face[0]].getZ();
-                cm = Cores.corPhong(luz, eye, vetNvertices[face[0]], n, ia, id, ie, ka, kd, ke);
+                cm = Cores.corPhong(luz, eye, vetNvertices[face[0]], n, ia, id, ie, ka, kd, ke,cor);
                 xmin = verticesAtuais[face[face.Count - 1]].getX();
                 ymin = verticesAtuais[face[face.Count - 1]].getY();
                 zmin = verticesAtuais[face[face.Count - 1]].getZ();
-                cl = Cores.corPhong(luz, eye, vetNvertices[face[face.Count - 1]], n, ia, id, ie, ka, kd, ke);
+                cl = Cores.corPhong(luz, eye, vetNvertices[face[face.Count - 1]], n, ia, id, ie, ka, kd, ke,cor);
             }
             else
             {
                 xmin = verticesAtuais[face[0]].getX();
                 ymin = verticesAtuais[face[0]].getY();
                 zmin = verticesAtuais[face[0]].getZ();
-                cl = Cores.corPhong(luz, eye, vetNvertices[face[0]], n, ia, id, ie, ka, kd, ke);
+                cl = Cores.corPhong(luz, eye, vetNvertices[face[0]], n, ia, id, ie, ka, kd, ke,cor);
                 xmax = verticesAtuais[face[face.Count - 1]].getX();
                 ymax = verticesAtuais[face[face.Count - 1]].getY();
                 zmax = verticesAtuais[face[face.Count - 1]].getZ();
-                cm = Cores.corPhong(luz, eye, vetNvertices[face[face.Count - 1]], n, ia, id, ie, ka, kd, ke);
+                cm = Cores.corPhong(luz, eye, vetNvertices[face[face.Count - 1]], n, ia, id, ie, ka, kd, ke,cor);
             }
             dx = xmax - xmin;
             dy = ymax - ymin;
@@ -602,9 +591,9 @@ namespace CG_Imagens.entidades
 
             incx = (dy != 0) ? dx / dy : 0;
             incz = dy != 0 ? dz / dy : 0;
-            incrx = (cm.getX() - cl.getX()) / dy;
-            incgy = (cm.getY() - cl.getY()) / dy;
-            incbz = (cm.getZ() - cl.getZ()) / dy;
+            incrx = (cm.R - cl.R) / dy;
+            incgy = (cm.G - cl.G) / dy;
+            incbz = (cm.B - cl.B) / dy;
 
             y = (int)ymin + ty;
             if (y < 0) y = 0;
@@ -612,20 +601,19 @@ namespace CG_Imagens.entidades
             if (et.getAET(y) == null)
                 et.init(y);
             et.getAET(y).add(new No((int)ymax + ty, xmin + tx, incx, zmin, incz,
-                cl.getX(), cl.getY(), cl.getZ(), incrx, incgy, incbz));
+                cl.R, cl.G, cl.B, incrx, incgy, incbz));
             return et;
         }
 
         public ET gerarETFaceFlat(int f, int height, int tx, int ty, Ponto Luz, Ponto Eye, int n,
-    Ponto ia, Ponto id, Ponto ie, Ponto ka, Ponto kd, Ponto ke)
+    Ponto ia, Ponto id, Ponto ie, Ponto ka, Ponto kd, Ponto ke,Color cor)
         {
-            Ponto cor;
             ET et = new ET(height + 1);
             double xmax, ymax, zmax, xmin, ymin, zmin, dx, dy, dz;
             double incx, incz;
             int y;
             List<int> face = faces[f];
-            cor = Cores.corPhong(Luz, Eye, vetNfaces[f], n, ia, id, ie, ka, kd, ke);
+            cor = Cores.corPhong(Luz, Eye, vetNfaces[f], n, ia, id, ie, ka, kd, ke,cor);
             for (int i = 0; i + 1 < face.Count; ++i)
             { // do primeiro ponto até o ultimo
                 if (verticesAtuais[face[i]].getY() >= verticesAtuais[face[i + 1]].getY())
@@ -660,7 +648,7 @@ namespace CG_Imagens.entidades
                 if (et.getAET(y) == null)
                     et.init(y);
                 et.getAET(y).add(new No((int)ymax + ty, xmin + tx, incx, zmin, incz,
-                    cor.getX(), cor.getY(), cor.getZ(), 0, 0, 0));
+                    cor.R, cor.G, cor.B, 0, 0, 0));
             }// fim for
              // ultimo com o primeiro
             if (verticesAtuais[face[0]].getY() >= verticesAtuais[face[face.Count - 1]].getY())
@@ -694,7 +682,7 @@ namespace CG_Imagens.entidades
             if (et.getAET(y) == null)
                 et.init(y);
             et.getAET(y).add(new No((int)ymax + ty, xmin + tx, incx, zmin, incz,
-                cor.getX(), cor.getY(), cor.getZ(), 0, 0, 0));
+                cor.R, cor.G, cor.B, 0, 0, 0));
             return et;
         }
 

@@ -31,6 +31,7 @@ namespace CG_Trabalho
         private int x1, y1, x2, y2, tx, ty;
         private string txd = "0";
         private Ponto ia, id, ie, ka, kd, ke, Eye, Luz;
+        private bool luzinha;
 
 
         private void pictureBox_mouseWheel(Object sender, MouseEventArgs e)
@@ -251,25 +252,24 @@ namespace CG_Trabalho
                     Cores cor = new Cores();
                     if (radioButton1.Checked)
                     {
-                        cor.scanLineFlat(bmpPrincipal, obj, tx, ty, Luz, Eye, (int)numericUpDown1.Value, ia, id, ie, ka, kd, ke);
-                    }else if (Phong.Checked)
-                    {
-                        cor.scanLinePhong(bmpPrincipal, obj, tx, ty, Luz, Eye, (int)numericUpDown1.Value, ia, id, ie, ka, kd, ke);
+                        cor.scanLineFlat(bmpPrincipal, obj, tx, ty, Luz, Eye, (int)numericUpDown1.Value, ia, id, ie, ka, kd, ke, material);
                     }
-                    else if(radioButton3.Checked)
+                    else if (Phong.Checked)
                     {
-                        cor.scanLineGouraud(bmpPrincipal, obj, tx, ty, Luz, Eye, (int)numericUpDown1.Value, ia, id, ie, ka, kd, ke);
+                        cor.scanLinePhong(bmpPrincipal, obj, tx, ty, Luz, Eye, (int)numericUpDown1.Value, ia, id, ie, ka, kd, ke, material);
+                    }
+                    else if (radioButton3.Checked)
+                    {
+                        cor.scanLineGouraud(bmpPrincipal, obj, tx, ty, Luz, Eye, (int)numericUpDown1.Value, ia, id, ie, ka, kd, ke, material);
                     }
                     else
                     {
                         draw.projecaoParalelaXY(bmpPrincipal, obj, tx, ty, material, ckFacesOcultas.Checked);
                     }
-                    
+
                     pbPrincipal.Refresh();
 
                 }
-
-
 
             }
             else if (bmpPrincipal != null)
@@ -281,24 +281,77 @@ namespace CG_Trabalho
 
         private void flatTeste(object sender, MouseEventArgs e)
         {
-            if(cbProjecao.Text == "Paralela")
+            if (cbProjecao.Text == "Paralela")
             {
                 Cores cor = new Cores();
-                cor.scanLineFlat(bmpPrincipal, obj, tx, ty, Luz, Eye, (int)numericUpDown1.Value, ia, id, ie, ka, kd, ke);
+                cor.scanLineFlat(bmpPrincipal, obj, tx, ty, Luz, Eye, (int)numericUpDown1.Value, ia, id, ie, ka, kd, ke, material);
                 pbPrincipal.Refresh();
             }
-            
         }
 
         private void phongTeste(object sender, EventArgs e)
         {
-            if(cbProjecao.Text == "Paralela")
+            if (cbProjecao.Text == "Paralela")
             {
                 Cores cor = new Cores();
-                cor.scanLinePhong(bmpPrincipal, obj, tx, ty, Luz, Eye, (int)numericUpDown1.Value, ia, id, ie, ka, kd, ke);
+                cor.scanLinePhong(bmpPrincipal, obj, tx, ty, Luz, Eye, (int)numericUpDown1.Value, ia, id, ie, ka, kd, ke, material);
                 pbPrincipal.Refresh();
             }
-            
+        }
+
+        private void gouraudTeste(object sender, EventArgs e)
+        {
+            if (cbProjecao.Text == "Paralela")
+            {
+                Cores cor = new Cores();
+                cor.scanLineGouraud(bmpPrincipal, obj, tx, ty, Luz, Eye, (int)numericUpDown1.Value, ia, id, ie, ka, kd, ke, material);
+                pbPrincipal.Refresh();
+            }
+        }
+
+        private void atualizarBotao(int x, int y)
+        {
+            if (x < pbPrincipal.Location.X)
+                x = pbPrincipal.Location.X;
+            else if (x > (pbPrincipal.Location.X + pbPrincipal.Width) - luzBtn.Width)
+                x = (pbPrincipal.Location.X + pbPrincipal.Width) - luzBtn.Width;
+            if (y < pbPrincipal.Location.Y)
+                y = pbPrincipal.Location.Y;
+            else if (y > (pbPrincipal.Location.Y + pbPrincipal.Height) - luzBtn.Height)
+                y = (pbPrincipal.Location.Y + pbPrincipal.Height) - luzBtn.Height;
+
+            luzBtn.Location = new Point(x, y);
+            x = x + (luzBtn.Width >> 1) - pbPrincipal.Location.X;
+            y = y + (luzBtn.Height >> 1) - pbPrincipal.Location.Y;
+
+
+            Luz = new Ponto(x - (obj.getCentro().getX() + tx), y - (obj.getCentro().getY() + ty), 1);
+            Luz = Luz.normalizar();
+            Luz.setZ(1);
+            luzBtn.Refresh();
+        }
+
+        private void mouseAbaixa(object sender, MouseEventArgs e)
+        {
+            luzinha = obj != null && e.Button == MouseButtons.Left;
+            if (luzinha)
+                atualizarBotao(MousePosition.X - (luzBtn.Width >> 1), MousePosition.Y - luzBtn.Height);
+        }
+
+        private void mouseSobe(object sender, MouseEventArgs e)
+        {
+            if (luzinha)
+                atualizarBotao(MousePosition.X - (luzBtn.Width >> 1), MousePosition.Y - luzBtn.Height);
+            luzinha = false;
+        }
+
+        private void mouseLuzMove(object sender, MouseEventArgs e)
+        {
+            if (luzinha)
+            {
+                atualizarBotao(MousePosition.X - (luzBtn.Width >> 1), MousePosition.Y - luzBtn.Height);
+                atualizarObjeto();
+            }
         }
     }
 }

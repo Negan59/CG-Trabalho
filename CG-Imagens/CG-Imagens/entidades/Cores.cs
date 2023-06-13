@@ -12,22 +12,28 @@ namespace CG_Imagens.entidades
         Desenhar desenha = new Desenhar();
         public Cores() { }
         //No phong, vamos seguir o slide, nele tem alguns valores sendo colocados
-        public static Ponto corPhong(Ponto Luz, Ponto Eye, Ponto N, int n, Ponto ia, Ponto id, Ponto ie, Ponto ka, Ponto kd, Ponto ke)
+        public static Color corPhong(Ponto Luz, Ponto Eye, Ponto N, int n,
+        Ponto ia, Ponto id, Ponto ie, Ponto ka, Ponto kd, Ponto ke, Color corBase)
         {
             Ponto H = Luz.soma(Eye).normalizar();
-            double hnn = Math.Pow(H.produtoEscalar(N), n);
-            double ln = Luz.produtoEscalar(N);
+            double hnn = Math.Pow(H.produtoEscalar(N), n), ln = Luz.produtoEscalar(N);
 
-            double r = ia.getX() * ka.getX() + id.getX() * kd.getX() * ln + ie.getX() * ke.getX() * hnn;
-            double g = ia.getY() * ka.getY() + id.getY() * kd.getY() * ln + ie.getY() * ke.getY() * hnn;
-            double b = ia.getZ() * ka.getZ() + id.getZ() * kd.getZ() * ln + ie.getZ() * ke.getZ() * hnn;
+            double rPhong = ia.getX() * ka.getX() + id.getX() * kd.getX() * ln + ie.getX() * ke.getX() * hnn;
+            double gPhong = ia.getY() * ka.getY() + id.getY() * kd.getY() * ln + ie.getY() * ke.getY() * hnn;
+            double bPhong = ia.getZ() * ka.getZ() + id.getZ() * kd.getZ() * ln + ie.getZ() * ke.getZ() * hnn;
+            rPhong = rPhong < 0 ? 0 : (rPhong > 1 ? 1 : rPhong);
+            gPhong = gPhong < 0 ? 0 : (gPhong > 1 ? 1 : gPhong);
+            bPhong = bPhong < 0 ? 0 : (bPhong > 1 ? 1 : bPhong);
 
-            r = r < 0 ? 0 : (r > 1 ? 1 : r);
-            g = g < 0 ? 0 : (g > 1 ? 1 : g);
-            b = b < 0 ? 0 : (b > 1 ? 1 : b);
+            double rFinal = ((rPhong*255) + corBase.R) / 2.0;
+            double gFinal = ((gPhong*255) + corBase.G) / 2.0;
+            double bFinal = ((bPhong*255) + corBase.B) / 2.0;
 
-            return new Ponto(r * 255, g * 255, b * 255);
+
+            return Color.FromArgb((int)rFinal,(int) gFinal, (int)bFinal);
         }
+
+
         //z-buffer para tratar as faces ocultas
         private double[,] gerarZBuffer(int width, int height)
         {
@@ -38,7 +44,7 @@ namespace CG_Imagens.entidades
             return zbuffer;
         }
         public void scanLineFlat(Bitmap bmp, Forma obj, int tx, int ty, Ponto Luz, Ponto Eye, int n,
-            Ponto ia, Ponto id, Ponto ie, Ponto ka, Ponto kd, Ponto ke)
+            Ponto ia, Ponto id, Ponto ie, Ponto ka, Ponto kd, Ponto ke,Color cor)
         {
             int height = bmp.Height, width = bmp.Width;
 
@@ -53,7 +59,7 @@ namespace CG_Imagens.entidades
                 {
                     if (obj.getVetNFace(i).getZ() >= 0)
                     {
-                        et = obj.gerarETFaceFlat(i, height, tx, ty, Luz, Eye, n, ia, id, ie, ka, kd, ke);
+                        et = obj.gerarETFaceFlat(i, height, tx, ty, Luz, Eye, n, ia, id, ie, ka, kd, ke,cor);
                         scanLineFaceFlat(data, et, zbuffer);
                     }
                 }
@@ -116,7 +122,7 @@ namespace CG_Imagens.entidades
         }
 
         public void scanLineGouraud(Bitmap bmp, Forma obj, int tx, int ty, Ponto Luz, Ponto Eye, int n,
-        Ponto ia, Ponto id, Ponto ie, Ponto ka, Ponto kd, Ponto ke)
+        Ponto ia, Ponto id, Ponto ie, Ponto ka, Ponto kd, Ponto ke,Color cor)
         {
             int height = bmp.Height, width = bmp.Width;
 
@@ -133,7 +139,7 @@ namespace CG_Imagens.entidades
                 {
                     if (obj.getVetNFace(i).getZ() >= 0)
                     {
-                        et = obj.gerarETFaceGouraud(i, height, tx, ty, Luz, Eye, n, ia, id, ie, ka, kd, ke);
+                        et = obj.gerarETFaceGouraud(i, height, tx, ty, Luz, Eye, n, ia, id, ie, ka, kd, ke,cor);
                         scanLineFaceGouraud(data, et, zbuffer);
                     }
                 }
@@ -205,7 +211,7 @@ namespace CG_Imagens.entidades
         }
 
         public void scanLinePhong(Bitmap bmp, Forma obj, int tx, int ty, Ponto Luz, Ponto Eye, int n,
-        Ponto ia, Ponto id, Ponto ie, Ponto ka, Ponto kd, Ponto ke)
+        Ponto ia, Ponto id, Ponto ie, Ponto ka, Ponto kd, Ponto ke, Color cor)
         {
             int height = bmp.Height, width = bmp.Width;
             double[,] zbuffer = gerarZBuffer(width, height);
@@ -221,8 +227,8 @@ namespace CG_Imagens.entidades
                 {
                     if (obj.getVetNFace(i).getZ() >= 0)
                     {
-                        et = obj.gerarETFacePhong(i, height, tx, ty, Luz, Eye, n, ia, id, ie, ka, kd, ke);
-                        scanLineFacePhong(data, et, zbuffer, Luz, Eye, n, ia, id, ie, ka, kd, ke);
+                        et = obj.gerarETFacePhong(i, height, tx, ty, Luz, Eye, n, ia, id, ie, ka, kd, ke,cor);
+                        scanLineFacePhong(data, et, zbuffer, Luz, Eye, n, ia, id, ie, ka, kd, ke,cor);
                     }
                 }
             }
@@ -230,7 +236,7 @@ namespace CG_Imagens.entidades
         }
 
         private void scanLineFacePhong(BitmapData data, ET et, double[,] zbuffer, Ponto Luz, Ponto Eye, int n,
-            Ponto ia, Ponto id, Ponto ie, Ponto ka, Ponto kd, Ponto ke)
+            Ponto ia, Ponto id, Ponto ie, Ponto ka, Ponto kd, Ponto ke,Color corz)
         {
             List<No> lista;
             double z, inczx;
@@ -272,9 +278,8 @@ namespace CG_Imagens.entidades
                     {
                         if (desenha.inImage(data, x, y) && z > zbuffer[x, y])
                         {
-                            cor = corPhong(Luz, Eye, new Ponto(r, g, b), n, ia, id, ie, ka, kd, ke);
                             zbuffer[x, y] = z;
-                            desenha.writePixel(data, x, y, Color.FromArgb((int)cor.getX(), (int)cor.getY(), (int)cor.getZ()));
+                            desenha.writePixel(data, x, y, Color.FromArgb((int)r, (int)g, (int)b));
                         }
                         r += incrx;
                         g += incgx;

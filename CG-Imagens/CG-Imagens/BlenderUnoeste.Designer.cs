@@ -52,6 +52,7 @@
             pbPrincipal = new PictureBox();
             materialColor = new ColorDialog();
             fundoColor = new ColorDialog();
+            luzBtn = new Button();
             tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
             cores.SuspendLayout();
@@ -116,6 +117,7 @@
             radioButton3.TabStop = true;
             radioButton3.Text = "Gourard";
             radioButton3.UseVisualStyleBackColor = true;
+            radioButton3.Click += gouraudTeste;
             // 
             // Phong
             // 
@@ -302,11 +304,24 @@
             pbPrincipal.MouseDown += mouseDesce;
             pbPrincipal.MouseMove += movimentaMouse;
             // 
+            // luzBtn
+            // 
+            luzBtn.Location = new Point(25, 136);
+            luzBtn.Name = "luzBtn";
+            luzBtn.Size = new Size(62, 53);
+            luzBtn.TabIndex = 4;
+            luzBtn.Text = "Luz";
+            luzBtn.UseVisualStyleBackColor = true;
+            luzBtn.MouseDown += mouseAbaixa;
+            luzBtn.MouseMove += mouseLuzMove;
+            luzBtn.MouseUp += mouseSobe;
+            // 
             // FormPrincipal
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1348, 633);
+            Controls.Add(luzBtn);
             Controls.Add(pbPrincipal);
             Controls.Add(tabControl);
             Margin = new Padding(4, 3, 4, 3);
@@ -349,6 +364,7 @@
         private RadioButton radioButton1;
         private NumericUpDown numericUpDown1;
         private Label label4;
+        private Button luzBtn;
     }
 }
 
